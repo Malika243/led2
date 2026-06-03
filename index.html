@@ -30,49 +30,45 @@
             transition: 0.2s;
         }
         .btn:active { transform: scale(0.95); }
-        #btn-hopital { background-color: #e74c3c; } /* Rouge */
-        #btn-maison { background-color: #2ecc71; }   /* Vert */
-        #btn-eteindre { background-color: #7f8c8d; } /* Gris */
+        #btn-hopital { background-color: #e74c3c; } 
+        #btn-maison { background-color: #2ecc71; }   
+        #btn-eteindre { background-color: #7f8c8d; } 
     </style>
 </head>
 <body>
 
     <h1>Contrôle de la Maquette du Musée</h1>
-    <p>Cliquez sur un bouton pour illuminer un bâtiment :</p >
+    <p>Cliquez sur un bouton pour allumer ou éteindre chaque bâtiment :</p >
 
-    <button class="btn" id="btn-hopital" onclick="activerHopital()">🏥 Hôpital</button>
-    <button class="btn" id="btn-maison" onclick="activerMaison()">🏠 Maison</button>
+    <button class="btn" id="btn-hopital" onclick="allumerHopital()">🏥 Allumer Hôpital</button>
+    <button class="btn" id="btn-maison" onclick="allumerMaison()">🏠 Allumer Maison</button>
     <br>
     <button class="btn" id="btn-eteindre" onclick="eteindreTout()">❌ Éteindre Tout</button>
 
     <script>
         // CONFIGURATION DE TON NOUVEAU FIREBASE
-        // Mets le lien de ton NOUVEAU Firebase ci-dessous (garde bien le https:// pour le site web)
         const firebaseConfig = {
             databaseURL: "https://projet-avec-2led-default-rtdb.asia-southeast1.firebasedatabase.app"
         };
         
-        // Initialisation de Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Fonction 1 : Bouton Hôpital (Allume Hôpital, éteint Maison)
-        function activerHopital() {
+        // Change UNIQUEMENT l'hôpital à 1 (ne touche pas à la maison)
+        function allumerHopital() {
             database.ref('/').update({
-                hopital: 1,
-                maison: 0
+                hopital: 1
             });
         }
 
-        // Fonction 2 : Bouton Maison (Allume Maison, éteint Hôpital)
-        function activerMaison() {
+        // Change UNIQUEMENT la maison à 1 (ne touche pas à l'hôpital)
+        function allumerMaison() {
             database.ref('/').update({
-                hopital: 0,
                 maison: 1
             });
         }
 
-        // Fonction 3 : Éteindre Tout (Met les deux à 0)
+        // Remet bien les deux à 0 en même temps
         function eteindreTout() {
             database.ref('/').update({
                 hopital: 0,
