@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contrôle Musée - Maquette</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #f4f6f9;
+            padding: 50px;
+        }
+        h1 { color: #333; }
+        .btn {
+            display: inline-block;
+            width: 200px;
+            padding: 20px;
+            margin: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: 0.2s;
+        }
+        .btn:active { transform: scale(0.95); }
+        #btn-hopital { background-color: #e74c3c; } /* Rouge */
+        #btn-maison { background-color: #2ecc71; }   /* Vert */
+        #btn-eteindre { background-color: #7f8c8d; } /* Gris */
+    </style>
+</head>
+<body>
+
+    <h1>Contrôle de la Maquette du Musée</h1>
+    <p>Cliquez sur un bouton pour illuminer un bâtiment :</p >
+
+    <button class="btn" id="btn-hopital" onclick="activerHopital()">🏥 Hôpital</button>
+    <button class="btn" id="btn-maison" onclick="activerMaison()">🏠 Maison</button>
+    <br>
+    <button class="btn" id="btn-eteindre" onclick="eteindreTout()">❌ Éteindre Tout</button>
+
+    <script>
+        // CONFIGURATION DE TON NOUVEAU FIREBASE
+        // Mets le lien de ton NOUVEAU Firebase ci-dessous (garde bien le https:// pour le site web)
+        const firebaseConfig = {
+            databaseURL: "https://projet-avec-2led-default-rtdb.asia-southeast1.firebasedatabase.app"
+        };
+        
+        // Initialisation de Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Fonction 1 : Bouton Hôpital (Allume Hôpital, éteint Maison)
+        function activerHopital() {
+            database.ref('/').update({
+                hopital: 1,
+                maison: 0
+            });
+        }
+
+        // Fonction 2 : Bouton Maison (Allume Maison, éteint Hôpital)
+        function activerMaison() {
+            database.ref('/').update({
+                hopital: 0,
+                maison: 1
+            });
+        }
+
+        // Fonction 3 : Éteindre Tout (Met les deux à 0)
+        function eteindreTout() {
+            database.ref('/').update({
+                hopital: 0,
+                maison: 0
+            });
+        }
+    </script>
+</body>
+</html>
